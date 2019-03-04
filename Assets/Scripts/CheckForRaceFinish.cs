@@ -20,14 +20,12 @@ public class CheckForRaceFinish : MonoBehaviour {
 	/// <param name="other">Other.</param>
 	private void OnTriggerEnter(Collider other)
 	{
-		Debug.Log (other.name);
-
-		if (other.name == "Car" || other.name == "CarWaypointBased") {
+//		Debug.Log (other.name);
+		if (other.name == "CarWaypointBased" || other.name == "Car") {
 			count++;
-		}
-
-		if (other.name == "Car") {
-			FinishGame ();
+			if (other.name == "Car") {
+				FinishGame ();
+			}
 		}
 	}
 
@@ -37,12 +35,8 @@ public class CheckForRaceFinish : MonoBehaviour {
 	void FinishGame()
 	{
 		FinishUI.SetActive(true);
-		GameController.Instance.StopGame ();
-		if ( count == 1) {
-			RankText.text = "**** Rank 1 ****";
-		} else if (count == 2) {
-			RankText.text = "**** Rank 2 ****";
-		}
+		GameController.Instance.StopPlayerInputs ();
+		RankText.text = "**** Your Rank is "+ count +" ****";
 		StartCoroutine (GoToFirstScene());
 	}
 

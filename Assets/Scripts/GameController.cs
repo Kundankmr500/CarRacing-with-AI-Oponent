@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Vehicles.Car
 
 		public static GameController Instance;
 		public GameObject PlayerCar;
-		public GameObject AiCar;
+		public List<GameObject> AiCars;
 		public GameObject GoText;
 		public float targetTime = 5.0f;
 		public Material m_material;
@@ -27,15 +27,18 @@ namespace UnityStandardAssets.Vehicles.Car
 		void Start (){
 			m_material.color = Color.red;
 			isGameStart = false;
-			StopGame ();
+			StopPlayerInputs ();
 		}
 
 		/// <summary>
 		/// Stops the game.
 		/// </summary>
-		public void StopGame()
+		public void StopPlayerInputs()
 		{
-			AiCar.GetComponent<CarAIControl> ().enabled = false;
+			for (int i = 0; i < AiCars.Count; i++) {
+				AiCars[i].GetComponent<CarAIControl> ().enabled = false;
+				AiCars[i].GetComponent<CarController> ().enabled = false;
+			}
 			PlayerCar.GetComponent<CarController> ().enabled = false;
 			PlayerCar.GetComponent<CarUserControl> ().enabled = false;
 
@@ -60,7 +63,9 @@ namespace UnityStandardAssets.Vehicles.Car
 
 		void GameStart()
 		{
-			AiCar.GetComponent<CarAIControl> ().enabled = true;
+			for (int i = 0; i < AiCars.Count; i++) {
+				AiCars[i].GetComponent<CarAIControl> ().enabled = true;
+			}
 			PlayerCar.GetComponent<CarController> ().enabled = true;
 			PlayerCar.GetComponent<CarUserControl> ().enabled = true;
 		}
